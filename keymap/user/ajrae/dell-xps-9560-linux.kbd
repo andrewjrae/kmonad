@@ -1,0 +1,77 @@
+
+(defcfg
+  input   (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+  output  (uinput-sink
+            "KMonad: Dell XPS 9560"
+            "/usr/bin/sleep 1 && /usr/bin/setxkbmap -option compose:ralt -option caps:none")
+
+  ;; This option tells KMonad to let non-configured keys act normal
+  fallthrough true
+)
+
+(defsrc
+  `       1       2       3       4       5       6       7       8       9       0       -       =       bspc
+  tab     q       w       e       r       t       y       u       i       o       p       [       ]       \
+  caps    a       s       d       f       g       h       j       k       l       ;       '       ret
+  lsft    z       x       c       v       b       n       m       ,       .       /       rsft
+  spc
+)
+
+;; homerow aliases for qwerty
+(defalias
+    alt_a (tap-hold-next-release 200 a lalt)
+    met_s (tap-hold-next-release 200 s lmet)
+    ctl_d (tap-hold-next-release 200 d lctl)
+    sft_f (tap-hold-next-release 200 f lsft)
+
+    sft_j (tap-hold-next-release 200 j rsft)
+    ctl_k (tap-hold-next-release 200 k rctl)
+    met_l (tap-hold-next-release 200 l rmet)
+    alt_; (tap-hold-next-release 200 ; lalt)
+)
+
+;; homerow aliases for num layer
+(defalias
+    alt_1 (tap-hold-next-release 200 1 lalt)
+    met_2 (tap-hold-next-release 200 2 lmet)
+    ctl_3 (tap-hold-next-release 200 3 lctl)
+    sft_4 (tap-hold-next-release 200 4 lsft)
+
+    sft_7 (tap-hold-next-release 200 7 rsft)
+    ctl_8 (tap-hold-next-release 200 8 rctl)
+    met_9 (tap-hold-next-release 200 9 rmet)
+    alt_0 (tap-hold-next-release 200 0 lalt)
+)
+
+;; layer aliases
+(defalias
+  nav (layer-toggle navigation)
+  myesc (tap-next esc @nav)
+
+  num (layer-toggle numbers)
+  myspc (tap-hold-next-release 200 spc @num)
+)
+
+(deflayer qwerty
+  `       1       2       3       4       5       6       7       8       9       0       -       =       bspc
+  tab     q       w       e       r       t       y       u       i       o       p       [       ]       \
+  @myesc  @alt_a  @met_s  @ctl_d  @sft_f  g       h       @sft_j  @ctl_k  @met_l  @alt_;  '       ret
+  lsft    z       x       c       v       b       n       m       ,       .       /       rsft
+  @myspc
+)
+
+(deflayer navigation
+  _       _       _       _       _       _       _       _       _       _       _       _       _       _
+  _       _       _       _       _       _       _       _       _       _       _       _       _       _
+  _       _       _       _       _       _       left    down    up      right   _       _       _
+  _       _       _       _       _       _       _       _       _       _       _       _
+  _
+)
+
+(deflayer numbers
+  _       _       _       _       _       _       _       _       _       _       _       _       _       _
+  _       _       _       _       _       _       _       _       _       _       _       _       _       _
+  _       @alt_1  @met_2  @ctl_3  @sft_4  5       6       @sft_7  @ctl_8  @met_9  @alt_0  _       _
+  _       _       _       _       _       _       _       _       _       _       _       _
+  _
+)
