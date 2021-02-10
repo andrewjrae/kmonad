@@ -3,7 +3,7 @@
   input   (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
   output  (uinput-sink
             "KMonad: Dell XPS 9560"
-            "/usr/bin/sleep 1 && /usr/bin/setxkbmap -option compose:ralt -option caps:none")
+            "/usr/bin/sleep 1 && /usr/bin/setxkbmap -option compose:ralt")
 
   ;; This option tells KMonad to let non-configured keys act normal
   fallthrough true
